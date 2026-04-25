@@ -115,7 +115,7 @@ def train(
     # LR schedule
     use_cosine_lr: bool = True,
     # Checkpointing
-    checkpoint_dir: str | Path = "results/dsprites/baseline",
+    checkpoint_dir: str | Path = "results/baseline",
     save_every: int = 10,
     # Misc
     device: torch.device | str = "cpu",
