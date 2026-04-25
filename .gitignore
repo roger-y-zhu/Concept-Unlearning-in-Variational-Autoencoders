@@ -4,4 +4,4 @@ __pycache__/
 *.pyc
 
 # datasets
-data/g
+data/
