@@ -1,0 +1,23 @@
+# configs/base_vae.yaml
+# Baseline convolutional VAE for dSprites (64×64 binary images)
+
+model:
+  latent_dim: 10          # number of latent dimensions
+  base_channels: 32       # encoder/decoder channel width (doubled at each stage)
+  eps: 1.0e-6             # numerical stability floor for std
+
+training:
+  epochs: 100
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  grad_clip: 1.0          # max gradient norm (0 = disabled)
+  use_cosine_lr: true
+
+  # KL annealing: β linearly ramps from 0 → kl_max_weight over kl_warmup_epochs
+  kl_warmup_epochs: 10
+  kl_max_weight: 1.0      # set < 1.0 for β-VAE
+
+  seed: 42
+
+checkpointing:
+  save_every: 10          # save a periodic checkpoint every N epochs

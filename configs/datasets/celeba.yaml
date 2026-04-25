@@ -1,0 +1,17 @@
+# configs/datasets/celeba.yaml
+
+dataset:
+  name: celeba
+  data_root: data              # torchvision expects a parent dir; places files under data/celeba/
+  image_size: 64               # centre-crop 178px → resize to 64×64
+  channels: 3                  # RGB
+
+  # Set to false once files are on disk to skip the download check
+  download: true
+
+dataloader:
+  batch_size: 128              # CelebA images are heavier than dSprites — use smaller batches
+  num_workers: 4
+  include_labels: false        # set true to load 40-dim binary attribute vectors
+
+results_dir: results/celeba/baseline
