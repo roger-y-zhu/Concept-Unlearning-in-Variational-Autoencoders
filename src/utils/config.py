@@ -25,18 +25,15 @@ def load_experiment_config(experiment_name: str) -> dict:
         raise ValueError(f"Missing experiment: {experiment_name}")
 
     dataset_cfg = _load_yaml(root / "dataset" / f"{exp['dataset']}.yaml")
-    model_cfg = _load_yaml(root / "model" / f"{exp['model']}.yaml")
 
     cfg = {
         "name": exp["name"],
-        "model": exp["model"],
-        "dataset": exp["dataset"],
-        **dataset_cfg,
+        "_model_type": exp["model"],
+        "_dataset_type": exp["dataset"],
+        "dataset": dataset_cfg["dataset"],
+        "dataloader": dataset_cfg["dataloader"],
+        "results_dir": dataset_cfg.get("results_dir", f"results/{exp['dataset']}/{exp['model']}"),
     }
 
     cfg = _deep_merge(cfg, exp.get("overrides", {}))
-    cfg["model_cfg"] = model_cfg
-
-    cfg["results_dir"] = f"results/{exp['dataset']}/{exp['model']}"
-
     return cfg

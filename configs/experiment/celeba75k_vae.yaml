@@ -3,11 +3,11 @@ model: vae
 dataset: celeba
 
 overrides:
-  subset: 75000
-
+  dataloader:
+    subset: 75000
+    seed: 48025845
   model:
     latent_dim: 128
-
   training:
     epochs: 120
     lr: 1e-4
