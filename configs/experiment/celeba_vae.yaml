@@ -1,0 +1,14 @@
+name: celeba_vae
+model: vae
+dataset: celeba
+
+overrides:
+  dataset:
+    dataloader:
+      subset: 200000
+
+  model:
+    latent_dim: 128
+
+  training:
+    epochs: 120

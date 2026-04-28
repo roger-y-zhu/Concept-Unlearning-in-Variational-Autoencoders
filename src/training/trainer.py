@@ -21,6 +21,7 @@ import torch.nn as nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
+from src.utils.seed import seed_all
 
 log = logging.getLogger(__name__)
 
@@ -115,11 +116,12 @@ def train(
     # LR schedule
     use_cosine_lr: bool = True,
     # Checkpointing
-    checkpoint_dir: str | Path = "results/baseline",
+    checkpoint_dir: str | Path = "results/vae",
     save_every: int = 10,
     # Misc
     device: torch.device | str = "cpu",
-    seed: int = 42,
+    seed: int = 48025845,
+    trial=None
 ) -> dict[str, Any]:
     """Train the VAE and return history.
 
@@ -142,7 +144,7 @@ def train(
     Returns:
         history dict with lists of per-epoch metrics.
     """
-    torch.manual_seed(seed)
+    seed_all(seed)
     device = torch.device(device)
     model = model.to(device)
 
@@ -223,6 +225,7 @@ def train(
     log.info(
         "Training complete. Best val loss %.4f at epoch %d.", best_val_loss, best_epoch
     )
+
     return history
 
 

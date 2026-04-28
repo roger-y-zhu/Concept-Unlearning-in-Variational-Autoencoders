@@ -1,0 +1,12 @@
+# configs/experiment/dsprites_beta_vae.yaml
+name: dsprites_beta_vae
+model: beta_vae        # → loads configs/model/beta_vae.yaml
+dataset: dsprites      # → loads configs/dataset/dsprites.yaml
+
+# combo-specific overrides (optional)
+overrides:
+  model:
+    latent_dim: 16
+  training:
+    kl_max_weight: 4.0
+    kl_warmup_epochs: 20

@@ -1,0 +1,14 @@
+dataset:
+  name: celeba
+  data_root: data/celeba/img_align_celeba
+  image_size: 64
+  channels: 3
+  download: false
+
+dataloader:
+  batch_size: 128
+  num_workers: 4
+  include_labels: false
+
+  subset: null   # e.g. 75000, 200000, null = full
+  seed: 48025845

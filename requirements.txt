@@ -1,6 +1,7 @@
 # Core ML
 torch
 torchvision
+optuna
 
 # Data
 numpy

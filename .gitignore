@@ -7,3 +7,5 @@ history.json
 
 # datasets
 data/
+results/
+.ipynb_checkpoints/

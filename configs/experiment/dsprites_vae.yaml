@@ -1,0 +1,6 @@
+# configs/experiments/dsprites_vae.yaml
+name: dsprites_vae
+model: vae
+dataset: dsprites
+
+# No overrides needed - vae.yaml + dsprites.yaml defaults are sensible as-is
