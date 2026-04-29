@@ -94,30 +94,30 @@ def make_objective(experiment_name: str, device: torch.device):
         dataset_type = cfg["_dataset_type"]
 
         # dsprites200k baseline
-        # cfg = _deep_merge(cfg, {
-        #     "model": {
-        #         "latent_dim": trial.suggest_int("latent_dim", 5,20),
-        #     },
-        #     "training": {
-        #         "lr": trial.suggest_float("lr", 5e-4, 3e-3, log=True),
-        #         "kl_max_weight": trial.suggest_float("kl_max_weight", 0.1, 8),
-        #         "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 5, 30),
-        #         "epochs": 50,
-        #     },
-        # })
-
-        # # celeba vae baseline
         cfg = _deep_merge(cfg, {
             "model": {
-                "latent_dim": trial.suggest_int("latent_dim", 32,256),
+                "latent_dim": trial.suggest_int("latent_dim", 5,20),
             },
             "training": {
-                "lr": trial.suggest_float("lr", 5e-5, 5e-4, log=True),
-                "kl_max_weight": trial.suggest_float("kl_max_weight", 0.02, 0.3),
-                "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 10, 60),
-                "epochs": 120,
+                "lr": trial.suggest_float("lr", 5e-4, 3e-3, log=True),
+                "kl_max_weight": trial.suggest_float("kl_max_weight", 0.1, 8),
+                "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 5, 30),
+                "epochs": 50,
             },
         })
+
+        # # celeba vae baseline
+        # cfg = _deep_merge(cfg, {
+        #     "model": {
+        #         "latent_dim": trial.suggest_int("latent_dim", 32,256),
+        #     },
+        #     "training": {
+        #         "lr": trial.suggest_float("lr", 5e-5, 5e-4, log=True),
+        #         "kl_max_weight": trial.suggest_float("kl_max_weight", 0.02, 0.3),
+        #         "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 10, 60),
+        #         "epochs": 120,
+        #     },
+        # })
 
         trial_dir = Path(f"results/tuning/{experiment_name}/trial_{trial.number}")
         trial_dir.mkdir(parents=True, exist_ok=True)
@@ -151,10 +151,10 @@ def make_objective(experiment_name: str, device: torch.device):
 
         model = ConvVAE(VAEConfig(
             latent_dim=m["latent_dim"],
-            base_channels=m["base_channels"],
+            base_channels=m.get("base_channels", 32),
             in_channels=ds["channels"],
             recon_loss=ds.get("recon_loss", "bce"),
-            eps=m["eps"],
+            eps=m.get("eps", 1e-6),
         ))
 
         # ---------------- train ----------------

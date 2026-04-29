@@ -1,0 +1,4 @@
+training.yamlmodel:
+  latent_dim: 32
+  base_channels: 32
+  eps: 0.000001

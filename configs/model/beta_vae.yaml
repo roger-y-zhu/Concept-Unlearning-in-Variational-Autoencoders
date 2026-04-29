@@ -1,0 +1,4 @@
+model:
+  latent_dim: 10
+  base_channels: 32
+  eps: 0.000001

@@ -1,14 +1,11 @@
-# src/utils/config.py
-
-import yaml
 from pathlib import Path
+import yaml
 
 def _load_yaml(path: Path) -> dict:
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 def _deep_merge(base: dict, override: dict) -> dict:
-    """Recursively merge override into base."""
     result = base.copy()
     for k, v in override.items():
         if isinstance(v, dict) and isinstance(result.get(k), dict):
@@ -19,21 +16,27 @@ def _deep_merge(base: dict, override: dict) -> dict:
 
 def load_experiment_config(experiment_name: str) -> dict:
     root = Path("configs")
-
     exp = _load_yaml(root / "experiment" / f"{experiment_name}.yaml")
     if not exp:
-        raise ValueError(f"Missing experiment: {experiment_name}")
+        raise ValueError(f"Missing experiment config: {experiment_name}")
 
-    dataset_cfg = _load_yaml(root / "dataset" / f"{exp['dataset']}.yaml")
+    # 1. Start from training defaults
+    cfg = _load_yaml(root / "base" / "training.yaml")
 
-    cfg = {
-        "name": exp["name"],
-        "_model_type": exp["model"],
-        "_dataset_type": exp["dataset"],
-        "dataset": dataset_cfg["dataset"],
-        "dataloader": dataset_cfg["dataloader"],
-        "results_dir": dataset_cfg.get("results_dir", f"results/{exp['dataset']}/{exp['model']}"),
-    }
+    # 2. Merge dataset config
+    cfg = _deep_merge(cfg, _load_yaml(root / "dataset" / f"{exp['dataset']}.yaml"))
 
+    # 3. Merge model config
+    cfg = _deep_merge(cfg, _load_yaml(root / "model" / f"{exp['model']}.yaml"))
+
+    # 4. Apply experiment-level overrides
     cfg = _deep_merge(cfg, exp.get("overrides", {}))
+
+    # 5. Attach metadata
+    cfg["name"] = exp["name"]
+    cfg["_model_type"] = exp["model"]
+    cfg["_dataset_type"] = exp["dataset"]
+    cfg.setdefault("checkpointing", {})
+    cfg["results_dir"] = f"results/{exp['dataset']}/{exp['name']}"
+
     return cfg

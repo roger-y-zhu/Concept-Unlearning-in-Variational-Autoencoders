@@ -49,10 +49,10 @@ class VAEOutput:
 @dataclass
 class VAEConfig:
     latent_dim: int = 10
-    base_channels: int = 32      # doubled at each encoder stage
-    in_channels: int = 1         # 1 for dSprites, 3 for CelebA
-    recon_loss: str = "bce"      # "bce" (binary) or "mse" (continuous)
-    eps: float = 1e-6            # numerical stability floor for std
+    base_channels: int = 32
+    in_channels: int = 1
+    recon_loss: str = "bce"
+    eps: float = 1e-6
 
 
 # ---------------------------------------------------------------------------

@@ -1,9 +1,7 @@
-# configs/experiment/dsprites_beta_vae.yaml
 name: dsprites_beta_vae
-model: beta_vae        # → loads configs/model/beta_vae.yaml
-dataset: dsprites      # → loads configs/dataset/dsprites.yaml
+model: beta_vae
+dataset: dsprites
 
-# combo-specific overrides (optional)
 overrides:
   model:
     latent_dim: 16

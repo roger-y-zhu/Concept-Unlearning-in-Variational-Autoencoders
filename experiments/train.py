@@ -91,7 +91,13 @@ def main():
         recon_loss    = ds.get("recon_loss", "bce"),
         eps           = m["eps"],
     )
-    model = ConvVAE(vae_cfg)
+    model = ConvVAE(VAEConfig(
+        latent_dim=m["latent_dim"],
+        base_channels=m.get("base_channels", 32),
+        in_channels=ds["channels"],
+        recon_loss=ds.get("recon_loss", "bce"),
+        eps=m.get("eps", 1e-6),
+    ))
 
     # Train
     t = cfg["training"]

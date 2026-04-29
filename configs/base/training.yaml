@@ -1,0 +1,12 @@
+training:
+  epochs: 100
+  lr: 0.001
+  weight_decay: 0.0001
+  grad_clip: 1.0
+  kl_warmup_epochs: 10
+  kl_max_weight: 1.0
+  use_cosine_lr: true
+  seed: 48025845
+
+checkpointing:
+  save_every: 10

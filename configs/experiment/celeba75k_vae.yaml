@@ -5,11 +5,10 @@ dataset: celeba
 overrides:
   dataloader:
     subset: 75000
-    seed: 48025845
   model:
     latent_dim: 128
   training:
     epochs: 120
-    lr: 1e-4
+    lr: 0.0001
     kl_max_weight: 0.08
     kl_warmup_epochs: 25
