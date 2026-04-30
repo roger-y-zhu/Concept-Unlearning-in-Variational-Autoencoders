@@ -21,10 +21,13 @@ import torch.nn as nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
+
+from src.utils.misc import fmt_12h
 from src.utils.seed import seed_all
+from datetime import datetime, timedelta
+import time
 
 log = logging.getLogger(__name__)
-
 
 # ---------------------------------------------------------------------------
 # KL annealing
@@ -172,7 +175,11 @@ def train(
         device, epochs, model.cfg.latent_dim, lr,
     )
 
+    epoch_times: list[float] = []
+
     for epoch in range(1, epochs + 1):
+        epoch_start = time.time()
+
         kl_w = kl_weight(epoch, kl_warmup_epochs, kl_max_weight)
         current_lr = optimizer.param_groups[0]["lr"]
 
@@ -189,6 +196,16 @@ def train(
         if scheduler is not None:
             scheduler.step()
 
+        # ---- timing -------------------------------------------------------
+        epoch_time = time.time() - epoch_start
+        epoch_times.append(epoch_time)
+
+        avg_epoch_time = sum(epoch_times) / len(epoch_times)
+        remaining_epochs = epochs - epoch
+        remaining_seconds = remaining_epochs * avg_epoch_time
+
+        eta_dt = datetime.now() + timedelta(seconds=remaining_seconds)
+
         # ---- Record -------------------------------------------------------
         history["train_loss"].append(train_metrics["loss"])
         history["train_recon"].append(train_metrics["loss_recon"])
@@ -202,10 +219,13 @@ def train(
         log.info(
             "Epoch %3d/%d | β=%.3f | "
             "train loss=%.2f (recon=%.2f kl=%.2f) | "
-            "val loss=%.2f (recon=%.2f kl=%.2f)",
+            "val loss=%.2f (recon=%.2f kl=%.2f) | "
+            "epoch_time=%.1fs | eta=%s",
             epoch, epochs, kl_w,
             train_metrics["loss"], train_metrics["loss_recon"], train_metrics["loss_kl"],
-            val_metrics["loss"],   val_metrics["loss_recon"],   val_metrics["loss_kl"],
+            val_metrics["loss"], val_metrics["loss_recon"], val_metrics["loss_kl"],
+            epoch_time,
+            fmt_12h(eta_dt),
         )
 
         # ---- Checkpointing ------------------------------------------------
@@ -225,7 +245,6 @@ def train(
     log.info(
         "Training complete. Best val loss %.4f at epoch %d.", best_val_loss, best_epoch
     )
-
     return history
 
 

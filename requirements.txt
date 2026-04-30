@@ -23,3 +23,6 @@ umap-learn
 # Notebooks
 jupyter
 ipykernel
+
+pandas
+plotly

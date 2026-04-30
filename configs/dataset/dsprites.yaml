@@ -1,6 +1,6 @@
 dataset:
   name: dsprites
-  npz_path: data/dsprites/dsprites_200k.npz
+  npz_path: data/dsprites/dsprites.npz
   url: "https://github.com/google-deepmind/dsprites-dataset/raw/master/dsprites_ndarray_co1sh3sc6or40x32y32_64x64.npz"
   image_size: 64
   channels: 1

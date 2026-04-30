@@ -1,0 +1,14 @@
+# configs/experiments/dsprites_vae.yaml
+name: dsprites_vae_baseline
+model: vae
+dataset: dsprites
+
+overrides:
+  model:
+    latent_dim: 8
+
+  training:
+    lr: 0.0025
+    kl_max_weight: 1.0
+    kl_warmup_epochs: 10
+    epochs: 150

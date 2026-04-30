@@ -8,6 +8,7 @@ Optuna hyperparameter tuning for beta-VAE (dsprites / celeba).
 
 Usage:
 python experiments/optune.py --experiment dsprites_vae --n-trials 30
+python experiments/optune.py --experiment dsprites200k_vae --n-trials 50
 """
 
 import json
@@ -19,6 +20,8 @@ import numpy as np
 import optuna
 import torch
 import sys
+
+from src.utils.misc import fmt_time, fmt_12h
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -72,15 +75,6 @@ class TimeEstimator:
         }
 
 
-def fmt_time(seconds: float) -> str:
-    h = int(seconds // 3600)
-    m = int((seconds % 3600) // 60)
-    s = int(seconds % 60)
-    return f"{h:02d}:{m:02d}:{s:02d}"
-
-
-def fmt_12h(dt: datetime) -> str:
-    return dt.strftime("%I:%M:%S %p")
 
 
 # ---------------------------------------------------------------------
@@ -94,30 +88,30 @@ def make_objective(experiment_name: str, device: torch.device):
         dataset_type = cfg["_dataset_type"]
 
         # dsprites200k baseline
-        cfg = _deep_merge(cfg, {
-            "model": {
-                "latent_dim": trial.suggest_int("latent_dim", 5,20),
-            },
-            "training": {
-                "lr": trial.suggest_float("lr", 5e-4, 3e-3, log=True),
-                "kl_max_weight": trial.suggest_float("kl_max_weight", 0.1, 8),
-                "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 5, 30),
-                "epochs": 50,
-            },
-        })
-
-        # # celeba vae baseline
         # cfg = _deep_merge(cfg, {
         #     "model": {
-        #         "latent_dim": trial.suggest_int("latent_dim", 32,256),
+        #         "latent_dim": trial.suggest_int("latent_dim", 5,10),
         #     },
         #     "training": {
-        #         "lr": trial.suggest_float("lr", 5e-5, 5e-4, log=True),
-        #         "kl_max_weight": trial.suggest_float("kl_max_weight", 0.02, 0.3),
-        #         "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 10, 60),
-        #         "epochs": 120,
+        #         "lr": trial.suggest_float("lr", 0.0015, 0.0022, log=True),
+        #         "kl_max_weight": trial.suggest_float("kl_max_weight", 0.05, 1),
+        #         "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 5, 30),
+        #         "epochs": 50,
         #     },
         # })
+
+        # # celeba75k vae baseline
+        cfg = _deep_merge(cfg, {
+            "model": {
+                "latent_dim": trial.suggest_int("latent_dim", 16,128, log=True),
+            },
+            "training": {
+                "lr": trial.suggest_float("lr", 0.0015, 0.0022, log=True),
+                "kl_max_weight": trial.suggest_float("kl_max_weight", 0.01, 1, log=True),
+                "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 5, 40),
+                "epochs": 30,
+            },
+        })
 
         trial_dir = Path(f"results/tuning/{experiment_name}/trial_{trial.number}")
         trial_dir.mkdir(parents=True, exist_ok=True)
@@ -178,19 +172,23 @@ def make_objective(experiment_name: str, device: torch.device):
 
         torch.save(model.state_dict(), trial_dir / "model.pt")
 
-        best_val = float(np.mean(history["val_loss"][-3:]))
-        final_val = float(history["val_loss"][-1])
+        final_recon = float(np.mean(history["val_recon"][-3:]))
+        final_kl = float(np.mean(history["val_kl"][-3:]))
+
+        objective_score = final_recon + 0.1 * final_kl
 
         result = {
-            "best_val_loss": best_val,
-            "final_val_loss": final_val,
+            "objective_score": objective_score,
+            "final_val_recon": final_recon,
+            "final_val_kl": final_kl,
+            "final_val_loss": float(np.mean(history["val_loss"][-3:])),
             "epochs": len(history["val_loss"]),
         }
 
         with open(trial_dir / "metrics.json", "w") as f:
             json.dump(result, f, indent=2)
 
-        return best_val
+        return objective_score
 
     return objective
 
