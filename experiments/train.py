@@ -11,10 +11,9 @@ from pathlib import Path
 
 import torch
 
-from src.utils.misc import fmt_time, fmt_12h
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from src.utils.misc import fmt_time, fmt_12h
 from src.utils.config import load_experiment_config
 from src.models.vae import ConvVAE, VAEConfig
 from src.training.trainer import train

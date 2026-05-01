@@ -273,7 +273,7 @@ def _save_checkpoint(
 
 def load_checkpoint(model: nn.Module, path: str | Path, device: torch.device) -> dict:
     """Load a checkpoint into model (in-place) and return the saved dict."""
-    ckpt = torch.load(path, map_location=device)
+    ckpt = torch.load(path, map_location=device, weights_only=False)
     model.load_state_dict(ckpt["model_state_dict"])
     log.info("Loaded checkpoint from '%s' (epoch %d)", path, ckpt["epoch"])
     return ckpt

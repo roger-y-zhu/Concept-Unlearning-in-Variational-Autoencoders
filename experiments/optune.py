@@ -10,6 +10,10 @@ Usage:
 python experiments/optune.py --experiment dsprites_vae --n-trials 30
 python experiments/optune.py --experiment dsprites200k_vae --n-trials 50
 """
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import json
 import time
@@ -100,18 +104,31 @@ def make_objective(experiment_name: str, device: torch.device):
         #     },
         # })
 
-        # # celeba75k vae baseline
+        # dsprites200k beta vae baseline
         cfg = _deep_merge(cfg, {
             "model": {
-                "latent_dim": trial.suggest_int("latent_dim", 16,128, log=True),
+                "latent_dim": trial.suggest_int("latent_dim", 8,8),
             },
             "training": {
-                "lr": trial.suggest_float("lr", 0.0015, 0.0022, log=True),
-                "kl_max_weight": trial.suggest_float("kl_max_weight", 0.01, 1, log=True),
-                "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 5, 40),
-                "epochs": 30,
+                "lr": trial.suggest_float("lr", 0.0025, 0.0025),
+                "kl_max_weight": trial.suggest_float("kl_max_weight", 1, 10),
+                "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 10, 10),
+                "epochs": 50,
             },
         })
+
+        # # # celeba75k vae baseline
+        # cfg = _deep_merge(cfg, {
+        #     "model": {
+        #         "latent_dim": trial.suggest_int("latent_dim", 16,128, log=True),
+        #     },
+        #     "training": {
+        #         "lr": trial.suggest_float("lr", 0.0015, 0.0022, log=True),
+        #         "kl_max_weight": trial.suggest_float("kl_max_weight", 0.01, 1, log=True),
+        #         "kl_warmup_epochs": trial.suggest_int("kl_warmup_epochs", 5, 40),
+        #         "epochs": 30,
+        #     },
+        # })
 
         trial_dir = Path(f"results/tuning/{experiment_name}/trial_{trial.number}")
         trial_dir.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,13 @@
+name: celeba_vae
+model: vae
+dataset: celeba
+
+overrides:
+  model:
+    latent_dim: 124
+
+  training:
+    lr: 0.0022
+    kl_max_weight: 0.2
+    kl_warmup_epochs: 20
+    epochs: 200
