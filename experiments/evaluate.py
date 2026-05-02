@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 
 from src.data.dsprites import get_dataloaders
+from src.evaluation.clustering import cluster_metrics
+from src.evaluation.knn import knn_concept_cohesion
 from src.evaluation.probing import encode_dataset, linear_probe, mlp_probe
 from src.models.vae import ConvVAE, VAEConfig
 from src.training.trainer import load_checkpoint
@@ -72,6 +74,25 @@ mlp = mlp_probe(mu_train, y_train_bin, mu_test, y_test_bin)
 tock(t)
 print("  MLP probe:")
 print_results("mlp", mlp)
+
+# ── Clustering ───────────────────────────────────────────────────────────────
+print("[ Clustering ]")
+t = tick("Cluster metrics")
+clust = cluster_metrics(mu_test, y_test_bin)
+tock(t)
+print(f"  {'silhouette':<20}{clust['silhouette']:.4f}")
+print(f"  {'davies_bouldin':<20}{clust['davies_bouldin']:.4f}")
+print(f"  {'kmeans_purity':<20}{clust['kmeans_purity']:.2%}")
+
+# ── k-NN ─────────────────────────────────────────────────────────────────────
+print("[ k-NN Cohesion ]")
+t = tick("k-NN graph (k=15)")
+knn = knn_concept_cohesion(mu_test, y_test_bin, k=15)
+tock(t)
+print(f"  {'cohesion':<20}{knn['cohesion']:.4f}")
+print(f"  {'baseline':<20}{knn['baseline']:.4f}  (random expectation)")
+print(f"  {'lift':<20}{knn['lift']:.4f}")
+print(f"  {'lift_norm':<20}{knn['lift_norm']:.4f}")
 
 # ── Plot ─────────────────────────────────────────────────────────────────────
 print("[ Plot ]")
