@@ -4,11 +4,11 @@ Code for my honours thesis, *Does Latent Geometry Reveal What a VAE Has Forgotte
 
 If you train a VAE and then make it forget one concept, how do you know the concept is gone? Latent-space metrics such as probe accuracy, cluster purity and kNN cohesion are the usual answer. This project tests that answer against an active adversarial attack and a weight-space relearning test.
 
-The two kinds of metric barely agree. A linear erasure method can leave the linear probe score exactly where it was while the concept direction shrinks twenty-fold, and an attacker finds the concept easier to recover as the erasure gets stronger.
+I've found that the two kinds of metric barely agree. A linear erasure method can leave the linear probe score exactly where it was while the concept direction shrinks twenty-fold, and an attacker finds the concept easier to recover as the erasure gets stronger.
 
 ![Left: the linear probe AUROC stays flat for every partial erasure dose below 1 while the concept direction norm falls. Right: adversarial attack success rises with dose on dSprites and CelebA.](docs/figures/rundown_fig1_dissociation.png)
 
-## What was run
+## What I ran
 
 - **Datasets:** dSprites (forget hearts), CelebA (forget eyeglasses) and MPI3D-real (forget red objects).
 - **Methods:** NegGrad+, fine-tuning, Feature Unlearning, RMU, Fisher scrubbing, LEACE and INLP, each compared with an oracle retrained without the forgotten concept.
@@ -55,8 +55,5 @@ Checkpoints go to `results/<dataset>/...`. A finished run leaves a `final.pt`, s
 
 Everything is seeded through `src/utils/seed.py`, with the seed set in `configs/base/training.yaml`.
 
-## Status
-
-The experiments are finished. The thesis is not published here yet, and this README will link to it once it is.
 
 Code is released under the MIT licence.
