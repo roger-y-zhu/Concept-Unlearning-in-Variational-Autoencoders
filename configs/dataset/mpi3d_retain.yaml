@@ -1,0 +1,15 @@
+dataset:
+  name: mpi3d_retain
+  npz_path: data/mpi3d/mpi3d_real.npz
+  image_size: 64
+  channels: 3
+  recon_loss: mse
+  val_fraction: 0.1
+  test_fraction: 0.1
+  forget_factor: 0   # object_color (factor 0 of MPI3D-real)
+  forget_val: 2      # red — images with this colour are excluded from retain training/val
+
+dataloader:
+  batch_size: 128
+  num_workers: 4
+  include_labels: false

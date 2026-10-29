@@ -1,0 +1,17 @@
+dataset:
+  name: celeba_retain
+  data_root: data/celeba/img_align_celeba
+  image_size: 64
+  channels: 3
+  recon_loss: mse
+  download: false
+  # Concept to forget — images where this attribute is +1 are excluded
+  # from retain training/val loaders; the full labeled set is used for eval.
+  forget_attr: Eyeglasses
+  val_fraction: 0.1
+  test_fraction: 0.0   # test set built from full labeled split instead
+
+dataloader:
+  batch_size: 128
+  num_workers: 4
+  include_labels: false

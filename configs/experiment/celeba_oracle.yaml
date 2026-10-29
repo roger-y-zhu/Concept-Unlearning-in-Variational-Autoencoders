@@ -1,0 +1,16 @@
+name: celeba_oracle
+model: vae
+dataset: celeba_retain
+results_group: celeba   # saves to results/celeba/celeba_oracle/ (not results/celeba_retain/)
+
+overrides:
+  model:
+    latent_dim: 256       # identical to celeba_baseline
+    base_channels: 64     # identical to celeba_baseline
+
+  training:
+    lr: 0.0042            # identical to celeba_baseline
+    kl_max_weight: 1.0
+    kl_warmup_epochs: 20  # identical to celeba_baseline
+    weight_decay: 0.000184  # identical to celeba_baseline
+    epochs: 250           # identical to celeba_baseline

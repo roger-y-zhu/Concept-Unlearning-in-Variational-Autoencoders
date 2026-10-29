@@ -1,0 +1,20 @@
+name: mpi3d_baseline
+model: vae
+dataset: mpi3d
+
+# NOTE latent_dim / epochs below are PROVISIONAL — set before the reconstruction
+# smoke test and a short HPO. MPI3D-real is natural RGB (richer than dSprites'
+# binary shapes) so d=8 likely under-reconstructs; 32 is a starting point that
+# stays narrower than CelebA's 256 while keeping the real images legible. Revisit
+# once the smoke test reports reconstruction MSE at d in {16, 32}.
+overrides:
+  model:
+    latent_dim: 32
+    base_channels: 64
+
+  training:
+    lr: 0.001
+    kl_max_weight: 1.0
+    kl_warmup_epochs: 15
+    weight_decay: 0.0001
+    epochs: 120

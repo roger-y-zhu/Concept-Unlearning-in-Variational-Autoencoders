@@ -1,0 +1,31 @@
+# Core ML
+torch
+torchvision
+optuna
+
+# Data
+numpy
+
+# Config
+pyyaml
+
+# Evaluation (probing, CKA, clustering)
+scikit-learn
+scipy
+
+# Visualisation
+matplotlib
+seaborn
+
+# Latent space analysis
+umap-learn
+
+# Notebooks
+jupyter
+ipykernel
+
+pandas
+plotly
+
+# Testing
+pytest

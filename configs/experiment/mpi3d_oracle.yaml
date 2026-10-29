@@ -1,0 +1,19 @@
+name: mpi3d_oracle
+model: vae
+dataset: mpi3d_retain
+results_group: mpi3d   # saves to results/mpi3d/mpi3d_oracle/ (not results/mpi3d_retain/)
+
+# Identical architecture and schedule to mpi3d_baseline — the oracle differs only
+# in the data it sees (retain set: object_color != red). Keep these in lockstep
+# with mpi3d_baseline so oracle-vs-baseline isolates the data, not the recipe.
+overrides:
+  model:
+    latent_dim: 32
+    base_channels: 64
+
+  training:
+    lr: 0.001
+    kl_max_weight: 1.0
+    kl_warmup_epochs: 15
+    weight_decay: 0.0001
+    epochs: 120

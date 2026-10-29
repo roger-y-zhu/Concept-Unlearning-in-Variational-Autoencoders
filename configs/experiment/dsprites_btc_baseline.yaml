@@ -1,0 +1,26 @@
+name: dsprites_btc_baseline
+model: vae
+dataset: dsprites
+results_group: dsprites_btc   # -> results/dsprites_btc/dsprites_btc_baseline (keeps other trees untouched)
+
+# beta-TCVAE variant (Chen et al. 2018): penalise ONLY the total-correlation term of the
+# KL, by tc_beta. latent_dim HELD at the beta=1 value (8); kl_max_weight=1.0 is the warmup
+# ramp on the whole regulariser (NOT a beta knob). Everything else RE-OPTIMISED for this
+# objective by Optuna (experiments/optune_beta.py, own-objective val loss), holding
+# latent_dim + tc_beta. Tests whether EXPLICIT disentanglement pressure (vs beta=1 and
+# beta=4) makes LGA/geometry predict recoverability. The lr/channels/warmup/wd/epochs/batch
+# below are the Optuna winner (30 trials, own-objective val loss 552.73).
+overrides:
+  model:
+    latent_dim: 8
+    base_channels: 64
+  training:
+    objective: btcvae
+    tc_beta: 6.0
+    kl_max_weight: 1.0
+    lr: 0.003961596687744578
+    kl_warmup_epochs: 10
+    weight_decay: 0.00273078717275317
+    epochs: 150
+  dataloader:
+    batch_size: 256

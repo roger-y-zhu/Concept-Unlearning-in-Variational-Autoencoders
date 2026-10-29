@@ -1,0 +1,20 @@
+name: mpi3d_btc_baseline
+model: vae
+dataset: mpi3d
+results_group: mpi3d_btc
+
+# beta-TCVAE variant (Chen 2018): penalise ONLY total correlation (tc_beta). latent_dim + tc_beta HELD; everything else PROVISIONAL (seeded from beta=4 winner) until the btc HPO winner is pasted in.
+overrides:
+  model:
+    latent_dim: 32
+    base_channels: 32
+  training:
+    objective: btcvae
+    tc_beta: 6.0
+    kl_max_weight: 1.0
+    lr: 0.0011919210622902171
+    kl_warmup_epochs: 9
+    weight_decay: 1.961393764827867e-05
+    epochs: 120
+  dataloader:
+    batch_size: 256

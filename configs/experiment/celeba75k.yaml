@@ -1,0 +1,14 @@
+name: celeba75k
+model: vae
+dataset: celeba
+
+overrides:
+  dataloader:
+    subset: 75000
+  model:
+    latent_dim: 128
+  training:
+    epochs: 120
+    lr: 0.002
+    kl_max_weight: 1.0
+    kl_warmup_epochs: 25

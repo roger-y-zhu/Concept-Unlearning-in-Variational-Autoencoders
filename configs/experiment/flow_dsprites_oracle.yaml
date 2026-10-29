@@ -1,0 +1,19 @@
+name: flow_dsprites_oracle
+model: flow
+dataset: dsprites_retain
+results_group: dsprites_flow
+
+# RealNVP normalizing flow (Stage-2 second model: different architecture family --
+# invertible, exact likelihood). FULL dSprites (no subset). Objective = exact NLL. Oracle = retain-only (hearts excluded), lockstep recipe.
+overrides:
+  model:
+    n_coupling: 8
+    hidden_channels: 128
+    levels: 2
+  training:
+    lr: 0.0007
+    epochs: 40
+    kl_warmup_epochs: 1
+    grad_clip: 5.0
+  dataloader:
+    batch_size: 256

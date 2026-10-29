@@ -1,0 +1,20 @@
+name: celeba_btc_oracle
+model: vae
+dataset: celeba_retain
+results_group: celeba_btc
+
+# beta-TCVAE oracle: identical tuned recipe to the baseline, differs only in data (retain set).
+overrides:
+  model:
+    latent_dim: 256
+    base_channels: 64
+  training:
+    objective: btcvae
+    tc_beta: 6.0
+    kl_max_weight: 1.0
+    lr: 0.004684655540924638
+    kl_warmup_epochs: 16
+    weight_decay: 6.92476549423414e-05
+    epochs: 250
+  dataloader:
+    batch_size: 128

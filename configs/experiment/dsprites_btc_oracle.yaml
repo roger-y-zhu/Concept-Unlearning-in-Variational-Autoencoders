@@ -1,0 +1,22 @@
+name: dsprites_btc_oracle
+model: vae
+dataset: dsprites_retain
+results_group: dsprites_btc   # -> results/dsprites_btc/dsprites_btc_oracle
+
+# beta-TCVAE oracle: IDENTICAL tuned recipe to dsprites_btc_baseline, differs only in the
+# data it sees (retain set, hearts excluded) so oracle-vs-baseline isolates the data, not
+# the recipe. Kept in lockstep with dsprites_btc_baseline.
+overrides:
+  model:
+    latent_dim: 8
+    base_channels: 64
+  training:
+    objective: btcvae
+    tc_beta: 6.0
+    kl_max_weight: 1.0
+    lr: 0.003961596687744578
+    kl_warmup_epochs: 10
+    weight_decay: 0.00273078717275317
+    epochs: 150
+  dataloader:
+    batch_size: 256

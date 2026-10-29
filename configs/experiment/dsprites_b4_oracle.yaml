@@ -1,0 +1,20 @@
+name: dsprites_b4_oracle
+model: vae
+dataset: dsprites_retain
+results_group: dsprites_b4   # -> results/dsprites_b4/dsprites_b4_oracle
+
+# beta=4 oracle: IDENTICAL tuned recipe to dsprites_b4_baseline (HPO winner), differs
+# only in the data it sees (retain set, hearts excluded) so oracle-vs-baseline isolates
+# the data, not the recipe. Kept in lockstep with dsprites_b4_baseline.
+overrides:
+  model:
+    latent_dim: 8
+    base_channels: 64
+  training:
+    lr: 0.004733916873103614
+    kl_max_weight: 4.0
+    kl_warmup_epochs: 14
+    weight_decay: 0.0001276891079863806
+    epochs: 150
+  dataloader:
+    batch_size: 128

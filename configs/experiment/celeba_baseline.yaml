@@ -1,0 +1,15 @@
+name: celeba_baseline
+model: vae
+dataset: celeba
+
+overrides:
+  model:
+    latent_dim: 256       # HPO winner (trial 48); 192 also competitive but 256 edges it
+    base_channels: 64     # unanimous — all top trials; 32 costs ~10+ ELBO pts
+
+  training:
+    lr: 0.0042            # HPO winner 0.004264; sweet spot 0.003–0.005 (R²=35%)
+    kl_max_weight: 1.0
+    kl_warmup_epochs: 20  # short warmup wins in HPO; ~10% of 200 epochs is sufficient
+    weight_decay: 0.000184  # HPO winner; low values (1e-4–2e-4) consistently better
+    epochs: 250

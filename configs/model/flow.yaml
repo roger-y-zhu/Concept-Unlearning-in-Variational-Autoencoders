@@ -1,0 +1,4 @@
+model:
+  n_coupling: 8
+  hidden_channels: 64
+  image_size: 64

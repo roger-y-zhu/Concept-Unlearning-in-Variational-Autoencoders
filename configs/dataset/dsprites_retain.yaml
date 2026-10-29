@@ -1,0 +1,15 @@
+dataset:
+  name: dsprites_retain
+  npz_path: data/dsprites/dsprites.npz
+  image_size: 64
+  channels: 1
+  recon_loss: bce
+  val_fraction: 0.1
+  test_fraction: 0.1
+  concept_col: 1   # column in latents_classes (1 = shape)
+  concept_val: 2   # class value to exclude  (2 = heart)
+
+dataloader:
+  batch_size: 256
+  num_workers: 0
+  include_labels: false

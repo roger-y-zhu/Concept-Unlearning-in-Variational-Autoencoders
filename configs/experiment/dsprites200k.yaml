@@ -1,0 +1,14 @@
+name: dsprites200k
+model: vae
+dataset: dsprites
+
+overrides:
+  subset: 200000
+  dataset:
+    npz_path: data/dsprites/dsprites_200k.npz
+
+  model:
+    latent_dim: 16
+
+  training:
+    kl_max_weight: 1.0

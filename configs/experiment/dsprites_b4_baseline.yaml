@@ -1,0 +1,23 @@
+name: dsprites_b4_baseline
+model: vae
+dataset: dsprites
+results_group: dsprites_b4   # -> results/dsprites_b4/dsprites_b4_baseline (keeps beta=1 tree untouched)
+
+# beta-VAE variant: KL weight FIXED at 4.0, latent_dim HELD at the beta=1 value (8) so
+# beta is the only manipulated axis. Everything else RE-OPTIMISED for beta=4 by Optuna
+# (experiments/optune_beta.py, 27 trials, own-beta val objective): the values below are
+# the HPO winner (trial 13, val_loss 99.79, recon 35.3, KL 16.1 -- no posterior collapse).
+# Hypothesis: does beta=4's stronger latent organisation make LGA/geometry predict
+# recoverability, where beta=1 did not?
+overrides:
+  model:
+    latent_dim: 8
+    base_channels: 64
+  training:
+    lr: 0.004733916873103614
+    kl_max_weight: 4.0
+    kl_warmup_epochs: 14
+    weight_decay: 0.0001276891079863806
+    epochs: 150
+  dataloader:
+    batch_size: 128

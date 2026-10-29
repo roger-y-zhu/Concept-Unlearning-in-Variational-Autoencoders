@@ -1,0 +1,20 @@
+name: celeba_btc_baseline
+model: vae
+dataset: celeba
+results_group: celeba_btc
+
+# beta-TCVAE variant (Chen 2018): penalise ONLY total correlation (tc_beta). latent_dim + tc_beta HELD; everything else PROVISIONAL (seeded from beta=4 winner) until the btc HPO winner is pasted in.
+overrides:
+  model:
+    latent_dim: 256
+    base_channels: 64
+  training:
+    objective: btcvae
+    tc_beta: 6.0
+    kl_max_weight: 1.0
+    lr: 0.004684655540924638
+    kl_warmup_epochs: 16
+    weight_decay: 6.92476549423414e-05
+    epochs: 250
+  dataloader:
+    batch_size: 128

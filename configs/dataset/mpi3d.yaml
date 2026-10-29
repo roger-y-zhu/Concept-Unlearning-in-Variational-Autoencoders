@@ -1,0 +1,14 @@
+dataset:
+  name: mpi3d
+  npz_path: data/mpi3d/mpi3d_real.npz
+  url: "https://huggingface.co/datasets/waleedgondal/mpi3d/resolve/main/mpi3d_real.npz"
+  image_size: 64
+  channels: 3
+  recon_loss: mse       # natural RGB, like CelebA (dSprites is binary/BCE)
+  val_fraction: 0.1
+  test_fraction: 0.1
+
+dataloader:
+  batch_size: 128
+  num_workers: 4
+  include_labels: false

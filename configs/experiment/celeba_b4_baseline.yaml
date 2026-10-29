@@ -1,0 +1,19 @@
+name: celeba_b4_baseline
+model: vae
+dataset: celeba
+results_group: celeba_b4
+
+# beta=4 CelebA baseline. latent_dim=256 + kl_max_weight=4.0 held; rest = optune_beta HPO
+# winner (26 trials, val_loss 689, recon 428, KL 65 -- no collapse). Oracle lockstep.
+overrides:
+  model:
+    latent_dim: 256
+    base_channels: 64
+  training:
+    lr: 0.004970259155979202
+    kl_max_weight: 4.0
+    kl_warmup_epochs: 15
+    weight_decay: 0.00008480789821574102
+    epochs: 250
+  dataloader:
+    batch_size: 128

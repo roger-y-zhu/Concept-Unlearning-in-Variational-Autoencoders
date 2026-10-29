@@ -1,0 +1,14 @@
+name: dsprites_oracle
+model: vae
+dataset: dsprites_retain
+results_group: dsprites   # saves to results/dsprites/dsprites_oracle (not results/dsprites_retain/)
+
+overrides:
+  model:
+    latent_dim: 8
+
+  training:
+    lr: 0.0025
+    kl_max_weight: 1.0
+    kl_warmup_epochs: 10
+    epochs: 150

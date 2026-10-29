@@ -1,0 +1,20 @@
+name: mpi3d_b4_baseline
+model: vae
+dataset: mpi3d
+results_group: mpi3d_b4
+
+# beta=4 MPI3D baseline. latent_dim=32 + kl_max_weight=4.0 held; rest = optune_beta HPO
+# winner (26 trials, val_loss 72.69, recon 31.0, KL 10.4 -- no collapse). Oracle in
+# lockstep with baseline (differs only in data).
+overrides:
+  model:
+    latent_dim: 32
+    base_channels: 64
+  training:
+    lr: 0.0023422062378875806
+    kl_max_weight: 4.0
+    kl_warmup_epochs: 6
+    weight_decay: 0.00032510977402778584
+    epochs: 120
+  dataloader:
+    batch_size: 128

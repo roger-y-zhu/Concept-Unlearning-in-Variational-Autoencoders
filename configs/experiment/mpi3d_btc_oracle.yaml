@@ -1,0 +1,20 @@
+name: mpi3d_btc_oracle
+model: vae
+dataset: mpi3d_retain
+results_group: mpi3d_btc
+
+# beta-TCVAE oracle: identical tuned recipe to the baseline, differs only in data (retain set).
+overrides:
+  model:
+    latent_dim: 32
+    base_channels: 32
+  training:
+    objective: btcvae
+    tc_beta: 6.0
+    kl_max_weight: 1.0
+    lr: 0.0011919210622902171
+    kl_warmup_epochs: 9
+    weight_decay: 1.961393764827867e-05
+    epochs: 120
+  dataloader:
+    batch_size: 256
