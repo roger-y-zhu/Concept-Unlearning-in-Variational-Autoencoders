@@ -33,7 +33,6 @@ Bug 5 (adjacent) -- probes missing 'proba' / MLP probe collapsing on
 
 import copy
 
-import numpy as np
 import pytest
 import torch
 

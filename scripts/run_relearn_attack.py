@@ -26,7 +26,7 @@ Writes results/<ds>/relearn_attack.json (separate file; dense_recovery.json is u
 Resumable (row key = method|run). Root of the project via env CU_ROOT.
 """
 from __future__ import annotations
-import argparse, copy, json, os, sys, time
+import argparse, json, os, sys, time
 from pathlib import Path
 
 import numpy as np
@@ -38,7 +38,7 @@ sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(ROOT / "scripts"))
 
 from src.evaluation.membership import per_sample_negative_elbo  # noqa: E402
 from notebooks.nb_utils import load_vae_checkpoint  # noqa: E402
-from run_tofu_forget_quality import CKPT, row_ckpt  # noqa: E402  (b4 entries added 2026-10-16)
+from run_tofu_forget_quality import row_ckpt  # noqa: E402  (b4 entries added 2026-10-16)
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 EVAL_CAP = 3000

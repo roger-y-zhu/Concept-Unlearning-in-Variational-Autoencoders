@@ -25,7 +25,6 @@ from __future__ import annotations
 import argparse, json, sys, time
 from pathlib import Path
 
-import numpy as np
 import torch
 from scipy.stats import spearmanr
 

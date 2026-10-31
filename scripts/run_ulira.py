@@ -45,7 +45,7 @@ from src.models.vae import VAEConfig  # noqa: E402
 from src.evaluation.membership import per_sample_negative_elbo  # noqa: E402
 from src.evaluation import ulira as U4  # noqa: E402  (v4 scorer, ledger D4)
 from notebooks.nb_utils import load_vae_checkpoint  # noqa: E402
-from run_tofu_forget_quality import forget_loader, row_ckpt, CKPT  # noqa: E402
+from run_tofu_forget_quality import forget_loader, row_ckpt  # noqa: E402
 
 torch.serialization.add_safe_globals([VAEConfig])
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")

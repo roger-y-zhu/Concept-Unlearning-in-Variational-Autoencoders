@@ -43,7 +43,6 @@ sys.path.insert(0, str(ROOT))
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt          # noqa: E402
-import numpy as np                        # noqa: E402
 from scipy.stats import spearmanr         # noqa: E402
 
 OUT = ROOT / "results/figures/dissociation.png"

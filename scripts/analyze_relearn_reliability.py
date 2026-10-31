@@ -13,7 +13,7 @@ Reads results/<ds>[_b4]/relearn_attack[_k<k>_lr<lr>_s<seed>].json (written by sc
 Writes results/analysis_oct2026/relearn_reliability.{json,md}.
 """
 from __future__ import annotations
-import json, math, os, sys
+import json, math, sys
 from pathlib import Path
 
 import numpy as np

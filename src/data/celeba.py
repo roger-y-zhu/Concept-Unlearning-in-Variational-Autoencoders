@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from PIL import Image
-from torch.utils.data import Dataset, DataLoader, Subset, random_split
+from torch.utils.data import Dataset, DataLoader, random_split
 from torchvision import transforms
 
 log = logging.getLogger(__name__)
@@ -171,7 +171,7 @@ class LabeledCelebADataset(Dataset):
 
         # parse header
         with open(attr_path) as f:
-            n_images = int(f.readline().strip())
+            f.readline()  # image count (unused)
             attr_names = f.readline().strip().split()
             if attr_name not in attr_names:
                 raise ValueError(f"Attribute '{attr_name}' not in {attr_names}")

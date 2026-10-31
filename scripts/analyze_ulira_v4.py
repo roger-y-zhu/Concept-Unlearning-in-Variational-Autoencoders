@@ -16,7 +16,7 @@ Options: --fams b1[,b4]  model families to include (default b1 = the 126 beta=1 
                          pre-existing ulira_v4.{json,md}); --tag SUFFIX  output-name suffix (default "").
 """
 from __future__ import annotations
-import argparse, json, math, os, sys
+import argparse, json, sys
 from collections import defaultdict
 from pathlib import Path
 

@@ -13,19 +13,8 @@ pyyaml
 scikit-learn
 scipy
 
-# Visualisation
+# Plotting
 matplotlib
-seaborn
-
-# Latent space analysis
-umap-learn
-
-# Notebooks
-jupyter
-ipykernel
-
-pandas
-plotly
 
 # Testing
 pytest

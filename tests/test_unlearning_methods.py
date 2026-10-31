@@ -23,7 +23,7 @@ import torch
 from src.models.vae import ConvVAE, VAEConfig
 from src.unlearning.methods import (
     NegGrad, Finetune, FeatureUnlearn, RMU,
-    project_out, make_to_img, img_mse, latent_mse, freeze_encoder,
+    project_out, make_to_img, img_mse, freeze_encoder,
     bn_stats_frozen,
 )
 

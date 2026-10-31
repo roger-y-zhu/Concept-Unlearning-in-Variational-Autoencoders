@@ -108,7 +108,6 @@ def load():
             if rb is None or ro is None:
                 continue
             drow = {r["method"]: r for r in rows if r["method"] in ("baseline", "oracle")}
-            ref = dict(rb=rb, ro=ro, steps=steps)
 
             def crit(r, rrow):
                 a = r.get("attack") or {}

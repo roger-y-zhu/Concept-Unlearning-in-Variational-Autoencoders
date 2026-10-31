@@ -35,7 +35,6 @@ reference and should keep train_mode = True.
 
 from __future__ import annotations
 
-import math
 from contextlib import contextmanager
 
 import torch

@@ -6,7 +6,7 @@ import json
 import logging
 import sys
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 import torch
@@ -46,13 +46,6 @@ DATASET_LOADERS = {
     "mpi3d_retain":    mpi3d_retain_loaders,
 }
 
-
-def compute_eta(start_time: float, current_epoch: int, total_epochs: int) -> datetime:
-    elapsed = time.time() - start_time
-    avg_epoch = elapsed / max(current_epoch, 1)
-    remaining_epochs = total_epochs - current_epoch
-    remaining_seconds = remaining_epochs * avg_epoch
-    return datetime.now() + timedelta(seconds=remaining_seconds)
 
 def parse_args():
     p = argparse.ArgumentParser()
@@ -282,7 +275,6 @@ def main():
     # --------------------------------------------------
     # Train
     # --------------------------------------------------
-    train_start_time = time.time()
     history = train(
         model=model,
         train_loader=train_loader,

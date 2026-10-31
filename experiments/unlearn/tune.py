@@ -46,7 +46,7 @@ from optuna.samplers import NSGAIISampler
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from src.unlearning.loop import load_baseline, run_val
+from src.unlearning.loop import load_baseline
 from src.unlearning.methods import METHODS
 from src.unlearning.spec import DATASETS, SEED
 from src.utils.seed import seed_all

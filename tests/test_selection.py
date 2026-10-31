@@ -9,10 +9,8 @@ notebooks silently analyse different checkpoints than the loop saved.
 
 import json
 
-import pytest
-
 from src.evaluation.selection import (
-    tradeoff_epoch, load_history, resolve_checkpoint, champion_run, summarise_runs,
+    tradeoff_epoch, resolve_checkpoint, champion_run, summarise_runs,
 )
 
 

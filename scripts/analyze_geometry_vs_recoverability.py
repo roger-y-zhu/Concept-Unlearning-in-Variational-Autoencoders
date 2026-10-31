@@ -13,7 +13,6 @@ Outputs a per-dataset and pooled Spearman table + a scatter figure
 from __future__ import annotations
 import json
 from pathlib import Path
-import numpy as np
 from scipy.stats import spearmanr, rankdata
 import matplotlib.pyplot as plt
 

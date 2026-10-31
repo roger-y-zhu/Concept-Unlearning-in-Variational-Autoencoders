@@ -10,7 +10,6 @@ population attack must not silently mishandle.
 import numpy as np
 import pytest
 import torch
-import torch.nn as nn
 
 from src.models.vae import ConvVAE, VAEConfig
 from src.evaluation.membership import per_sample_negative_elbo, loss_threshold_mia
